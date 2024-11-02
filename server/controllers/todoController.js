@@ -10,7 +10,7 @@ const getTodos = (req, res) => {
 
 // Add a new todo
 const addTodo = (req, res) => {
-  try{
+  try {
     const { title } = req.body;
     if (!title) throw new Error('Title is required');
 
@@ -30,36 +30,49 @@ const addTodo = (req, res) => {
 
 // Mark a todo as completed
 const completeTodo = (req, res) => {
-  const { id } = req.params;
-  const index = findTodoIndexById(Number(id));
-
-  if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
-
-  todos[index].completed = !todos[index].completed;
-  res.json({ status: 'success', data: todos[index] });
+  try {
+    const { id } = req.params;
+    const index = findTodoIndexById(Number(id));
+  
+    if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
+  
+    todos[index].completed = !todos[index].completed;
+    res.json({ status: 'success', data: todos[index] });
+  } catch (error) {
+    res.status(404).json({ status: 'fail', error: error.message });
+  }
 };
 
 // Update a todo title
 const updateTodo = (req, res) => {
-  const { id } = req.params;
-  const { title } = req.body;
-  const index = findTodoIndexById(Number(id));
-
-  if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
-
-  todos[index].title = title;
-  res.json({ status: 'success', data: todos[index] });
+  try {
+    const { id } = req.params;
+    const { title } = req.body;
+    const index = findTodoIndexById(Number(id));
+  
+    if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
+    if (!title) throw new Error('Title is required');
+  
+    todos[index].title = title;
+    res.json({ status: 'success', data: todos[index] });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error: error.message });
+  }
 };
 
 // Delete a todo
 const deleteTodo = (req, res) => {
-  const { id } = req.params;
-  const index = findTodoIndexById(Number(id));
-
-  if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
-
-  const [deletedTodo] = todos.splice(index, 1);
-  res.json({ status: 'success', data: deletedTodo });
+  try {
+    const { id } = req.params;
+    const index = findTodoIndexById(Number(id));
+  
+    if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
+  
+    const [deletedTodo] = todos.splice(index, 1);
+    res.json({ status: 'success', data: deletedTodo });
+  } catch (error) {
+    res.status(404).json({ status: 'fail', error: error.message });
+  }
 };
 
 module.exports = {
