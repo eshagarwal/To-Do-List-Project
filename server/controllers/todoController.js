@@ -30,6 +30,17 @@ const completeTodo = (req, res) => {
   res.json({ status: 'success', data: todos[index] });
 };
 
+const updateTodo = (req, res) => {
+  const { id } = req.params;
+  const { title } = req.body;
+  const index = findTodoIndexById(Number(id));
+
+  if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
+
+  todos[index].title = title;
+  res.json({ status: 'success', data: todos[index] });
+};
+
 
 
 
