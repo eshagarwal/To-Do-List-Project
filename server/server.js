@@ -1,15 +1,13 @@
 const express = require('express');
 const cors = require('cors');
+const todoRoutes = require('./routes/todoRoutes');
 
 const app = express();
 const PORT = 3000;
 
 app.use(cors());
 app.use(express.json());
-
-// Middleware setup
-app.use(cors());
-app.use(bodyParser.json());
+app.use('/api/todos', todoRoutes);
 
 // Route to check server
 app.get('/', (req, res) => {
