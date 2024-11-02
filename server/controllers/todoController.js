@@ -8,6 +8,7 @@ const getTodos = (req, res) => {
   res.json({ status: 'success', data: todos });
 };
 
+// Add a new todo
 const addTodo = (req, res) => {
   const { title } = req.body;
   const newTodo = {
@@ -20,6 +21,7 @@ const addTodo = (req, res) => {
   res.status(201).json({ status: 'success', data: newTodo });
 };
 
+// Mark a todo as completed
 const completeTodo = (req, res) => {
   const { id } = req.params;
   const index = findTodoIndexById(Number(id));
@@ -30,6 +32,7 @@ const completeTodo = (req, res) => {
   res.json({ status: 'success', data: todos[index] });
 };
 
+// Update a todo title
 const updateTodo = (req, res) => {
   const { id } = req.params;
   const { title } = req.body;
@@ -41,12 +44,21 @@ const updateTodo = (req, res) => {
   res.json({ status: 'success', data: todos[index] });
 };
 
+// Delete a todo
+const deleteTodo = (req, res) => {
+  const { id } = req.params;
+  const index = findTodoIndexById(Number(id));
 
+  if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
 
-
+  const [deletedTodo] = todos.splice(index, 1);
+  res.json({ status: 'success', data: deletedTodo });
+};
 
 module.exports = {
   getTodos,
   addTodo,
   completeTodo,
+  updateTodo,
+  deleteTodo,
 };
