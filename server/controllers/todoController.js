@@ -10,15 +10,22 @@ const getTodos = (req, res) => {
 
 // Add a new todo
 const addTodo = (req, res) => {
-  const { title } = req.body;
-  const newTodo = {
-    id: Date.now(),
-    title,
-    completed: false,
-    createdAt: new Date(),
-  };
-  todos.push(newTodo);
-  res.status(201).json({ status: 'success', data: newTodo });
+  try{
+    const { title } = req.body;
+    if (!title) throw new Error('Title is required');
+
+    const newTodo = {
+      id: Date.now(),
+      title,
+      completed: false,
+      createdAt: new Date(),
+    };
+
+    todos.push(newTodo);
+    res.status(201).json({ status: 'success', data: newTodo });
+  } catch (error) {
+    res.status(400).json({ status: 'fail', error: error.message });
+  }
 };
 
 // Mark a todo as completed
