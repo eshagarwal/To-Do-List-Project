@@ -20,6 +20,15 @@ const addTodo = (req, res) => {
   res.status(201).json({ status: 'success', data: newTodo });
 };
 
+const completeTodo = (req, res) => {
+  const { id } = req.params;
+  const index = findTodoIndexById(Number(id));
+
+  if (index === -1) return res.status(404).json({ status: 'fail', error: 'Todo not found' });
+
+  todos[index].completed = !todos[index].completed;
+  res.json({ status: 'success', data: todos[index] });
+};
 
 
 
@@ -27,4 +36,6 @@ const addTodo = (req, res) => {
 
 module.exports = {
   getTodos,
+  addTodo,
+  completeTodo,
 };
