@@ -1,6 +1,8 @@
+const baseUri = 'http://localhost:3000'
+
 // Function to fetch all todos
 export const fetchTodos = async () => {
-    const response = await fetch('http://localhost:3000/api/todos');
+    const response = await fetch(`${baseUri}/api/todos`);
     if (!response.ok) {
         const errorData = await response.json();
         throw new Error(errorData.error || 'Failed to fetch tasks');
@@ -11,7 +13,7 @@ export const fetchTodos = async () => {
 
 // Function to add a new todo
 export const addTodo = async (title) => {
-    const response = await fetch('http://localhost:3000/api/todos', {
+    const response = await fetch(`${baseUri}/api/todos`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title }),
@@ -26,7 +28,7 @@ export const addTodo = async (title) => {
 
 // Function to mark a todo as completed
 export const completeTodo = async (id) => {
-    const response = await fetch(`http://localhost:3000/api/todos/${id}/complete`, { 
+    const response = await fetch(`${baseUri}/api/todos/${id}/complete`, { 
         method: 'PUT' 
     });
     if (!response.ok) {
@@ -39,7 +41,7 @@ export const completeTodo = async (id) => {
 
 // Function to delete a todo
 export const deleteTodo = async (id) => {
-    const response = await fetch(`http://localhost:3000/api/todos/${id}`, { 
+    const response = await fetch(`${baseUri}/api/todos/${id}`, { 
         method: 'DELETE' 
     });
     if (!response.ok) {
@@ -50,7 +52,7 @@ export const deleteTodo = async (id) => {
 
 // Function to edit a todo
 export const editTodo = async (id, newTitle) => {
-    const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
+    const response = await fetch(`${baseUri}/api/todos/${id}`, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ title: newTitle }),
