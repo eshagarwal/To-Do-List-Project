@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Trash2, CheckCircle, Circle, Edit2, X } from 'lucide-react';
+import '../../styles/todo.css';
 
+// TodoItem component represents an individual todo item with functionality for toggling completion status, editing, and deleting the item
 const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
     const [isEditing, setIsEditing] = useState(false);
     const [editValue, setEditValue] = useState(todo.title);
     const [isDeleting, setIsDeleting] = useState(false);
   
+    // Function to handle editing the todo item
     const handleEdit = async () => {
       if (editValue.trim() !== '') {
         await onEdit(todo.id, editValue);
@@ -13,12 +16,14 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
       }
     };
   
+    // Function to handle the deletion of the todo item.
     const handleDelete = async () => {
       setIsDeleting(true);
       await onDelete(todo.id);
     };
   
     return (
+      // Container for the todo item, with animation based on deleting state
       <div className={`transform transition-all duration-300 ease-in-out
                       ${isDeleting ? 'scale-95 opacity-0' : 'scale-100 opacity-100'}`}>
         <div className={`flex items-center justify-between p-4 mb-3 
