@@ -23,10 +23,13 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
     };
   
     return (
-      // Container for the todo item, with animation based on deleting state.
+      // Main container for the todo item, includes animation for deletion
       <div className={`todo-item-container ${isDeleting ? 'todo-item-deleting' : 'todo-item-active'}`}>
+
+        {/* Container for the todo item content */}
         <div className={`todo-item group animate-fadeIn ${todo.completed ? 'todo-item-completed' : 'todo-item-incomplete'}`}>
           {isEditing ? (
+            // Editing state of the todo item
             <div className="editing-container">
               <input
                 type="text"
@@ -35,16 +38,24 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
                 className="edit-input"
                 autoFocus
               />
+
+              {/* Button to confirm editing of the todo item */}
               <button onClick={handleEdit} className="check-button check-button-completed">
                 <CheckCircle className="w-5 h-5" />
               </button>
+
+              {/* Button to cancel editing */}
               <button onClick={() => setIsEditing(false)} className="check-button delete-button">
                 <X className="w-5 h-5" />
               </button>
             </div>
           ) : (
+
+            // Non-editing state of the todo item
             <>
               <div className="flex items-center gap-3 flex-1">
+
+                {/* Button to toggle completion of the todo item */}
                 <button
                   onClick={() => onToggle(todo.id)}
                   className={`check-button ${todo.completed ? 'check-button-completed' : 'check-button-incomplete'}`}
@@ -55,6 +66,8 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
                     <Circle className="w-5 h-5" />
                   )}
                 </button>
+
+                {/* Display title and creation date of the todo item */}
                 <div className="flex flex-col">
                   <span className={`todo-title ${todo.completed ? 'todo-title-completed' : 'todo-title-incomplete'}`}>
                     {todo.title}
@@ -64,6 +77,8 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
                   </span>
                 </div>
               </div>
+
+              {/* Edit and delete buttons that appear on hover */}
               <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                 {!todo.completed && (
                   <button onClick={() => setIsEditing(true)} className="edit-button">
@@ -84,3 +99,4 @@ const TodoItem = ({ todo, onToggle, onDelete, onEdit }) => {
 
 
   export default TodoItem;
+  
