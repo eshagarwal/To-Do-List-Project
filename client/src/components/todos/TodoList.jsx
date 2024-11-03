@@ -4,137 +4,75 @@ import TodoSection from './TodoSection';
 import TodoItem from './TodoItem';
 import Alert from '../alerts/Alert';
 import AlertDescription from '../alerts/AlertDescription';
+import { fetchTodos, addTodo, toggleTodo, deleteTodo, editTodo } from '../../api/todoApi';
 
 const TodoList = () => {
     const [todos, setTodos] = useState([]);
     const [alert, setAlert] = useState({ show: false, message: '', type: 'success' });
     const [showOpenTasks, setShowOpenTasks] = useState(true);
     const [showCompletedTasks, setShowCompletedTasks] = useState(true);
-  
+
     const showAlert = (message, type = 'success') => {
-      setAlert({ show: true, message, type });
-      setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 3000);
+        setAlert({ show: true, message, type });
+        setTimeout(() => setAlert({ show: false, message: '', type: 'success' }), 3000);
     };
-  
-    // Fetch todos from the backend when the component mounts
+
     useEffect(() => {
-      const fetchTodos = async () => {
-        try {
-          const response = await fetch('http://localhost:3000/api/todos');
-          if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to fetch tasks');
-          }
-          const data = await response.json();
-          const todos = data.data;
-    
-          // Ensure `createdAt` is a Date object
-          const todosWithDate = todos.map((todo) => ({
-            ...todo,
-            createdAt: new Date(todo.createdAt),
-          }));
-    
-          setTodos(todosWithDate);
-        } catch (error) {
-          console.error('Error fetching tasks:', error);
-          showAlert(error.message, 'error');
-        }
-      };
-    
-      fetchTodos();
-    }, []);
-    
-    const addTodo = async (title) => {
-      try {
-        const response = await fetch('http://localhost:3000/api/todos', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title }),
-        });
-    
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to add task');
-        }
-    
-        const data = await response.json();
-        const newTodo = data.data;
-        setTodos([newTodo, ...todos]);
-        showAlert('✨ Task added successfully!');
-      } catch (error) {
-        console.error('Error adding task:', error);
-        showAlert(error.message, 'error');
-      }
-    };
-    
-    const toggleTodo = async (id) => {
-      try {
-        const response = await fetch(`http://localhost:3000/api/todos/${id}/complete`, {
-          method: 'PUT',
-        });
-    
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to complete task');
-        }
-      
-        const data = await response.json();
-  
-        const updatedTodo = {
-          ...data.data,
-          createdAt: new Date(data.data.createdAt), // Ensure it's a Date object
+        const fetchData = async () => {
+            try {
+                const todos = await fetchTodos();
+                setTodos(todos);
+            } catch (error) {
+                console.error('Error fetching tasks:', error);
+                showAlert(error.message, 'error');
+            }
         };
-        setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
-      } catch (error) {
-        console.error('Error completing task:', error);
-        showAlert(error.message, 'error');
-      }
-    };
-    
-    const deleteTodo = async (id) => {
-      try {
-        const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
-          method: 'DELETE',
-        });
-    
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to delete task');
+        fetchData();
+    }, []);
+
+    const handleAddTodo = async (title) => {
+        try {
+            const newTodo = await addTodo(title);
+            setTodos([newTodo, ...todos]);
+            showAlert('✨ Task added successfully!');
+        } catch (error) {
+            console.error('Error adding task:', error);
+            showAlert(error.message, 'error');
         }
-    
-        setTodos(todos.filter((todo) => todo.id !== id));
-        showAlert('🗑️ Task deleted successfully!');
-      } catch (error) {
-        console.error('Error deleting task:', error);
-        showAlert(error.message, 'error');
-      }
     };
-    
-    const editTodo = async (id, newTitle) => {
-      try {
-        const response = await fetch(`http://localhost:3000/api/todos/${id}`, {
-          method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ title: newTitle }),
-        });
-    
-        if (!response.ok) {
-          const errorData = await response.json();
-          throw new Error(errorData.error || 'Failed to update task');
+
+    const handleToggleTodo = async (id) => {
+        try {
+            const updatedTodo = await toggleTodo(id);
+            setTodos(todos.map(todo => (todo.id === id ? updatedTodo : todo)));
+        } catch (error) {
+            console.error('Error completing task:', error);
+            showAlert(error.message, 'error');
         }
-    
-        const data = await response.json();
-        const updatedTodo = data.data;
-        setTodos(todos.map((todo) => (todo.id === id ? updatedTodo : todo)));
-        showAlert('✏️ Task updated successfully!');
-      } catch (error) {
-        console.error('Error updating task:', error);
-        showAlert(error.message, 'error');
-      }
     };
-    
-  
-  
+
+    const handleDeleteTodo = async (id) => {
+        try {
+            await deleteTodo(id);
+            setTodos(todos.filter(todo => todo.id !== id));
+            showAlert('🗑️ Task deleted successfully!');
+        } catch (error) {
+            console.error('Error deleting task:', error);
+            showAlert(error.message, 'error');
+        }
+    };
+
+    const handleEditTodo = async (id, newTitle) => {
+        try {
+            const updatedTodo = await editTodo(id, newTitle);
+            setTodos(todos.map(todo => (todo.id === id ? updatedTodo : todo)));
+            showAlert('✏️ Task updated successfully!');
+        } catch (error) {
+            console.error('Error updating task:', error);
+            showAlert(error.message, 'error');
+        }
+    };
+
     // Separate and sort todos
     const openTodos = todos
     .filter(todo => !todo.completed)
@@ -169,7 +107,7 @@ const TodoList = () => {
           </Alert>
         )}
   
-        <TodoForm onAdd={addTodo} />
+        <TodoForm onAdd={handleAddTodo} />
   
         {todos.length === 0 ? (
           <div className="text-center py-12 text-gray-500 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
@@ -179,39 +117,39 @@ const TodoList = () => {
           </div>
         ) : (
           <div>
-            <TodoSection 
+          <TodoSection 
               title="Open Tasks" 
               count={openTodos.length}
               isOpen={showOpenTasks}
               onToggle={() => setShowOpenTasks(!showOpenTasks)}
-            >
+          >
               {openTodos.map((todo) => (
-                <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  onToggle={toggleTodo}
-                  onDelete={deleteTodo}
-                  onEdit={editTodo}
-                />
+                  <TodoItem
+                      key={todo.id}
+                      todo={todo}
+                      onToggle={handleToggleTodo}
+                      onDelete={handleDeleteTodo}
+                      onEdit={handleEditTodo}
+                  />
               ))}
-            </TodoSection>
-  
-            <TodoSection 
+          </TodoSection>
+
+          <TodoSection 
               title="Completed Tasks" 
               count={completedTodos.length}
               isOpen={showCompletedTasks}
               onToggle={() => setShowCompletedTasks(!showCompletedTasks)}
-            >
+          >
               {completedTodos.map((todo) => (
-                <TodoItem
-                  key={todo.id}
-                  todo={todo}
-                  onToggle={toggleTodo}
-                  onDelete={deleteTodo}
-                  onEdit={editTodo}
-                />
+                  <TodoItem
+                      key={todo.id}
+                      todo={todo}
+                      onToggle={handleToggleTodo}
+                      onDelete={handleDeleteTodo}
+                      onEdit={handleEditTodo}
+                  />
               ))}
-            </TodoSection>
+          </TodoSection>
           </div>
         )}
   
