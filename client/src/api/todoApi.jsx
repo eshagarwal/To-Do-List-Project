@@ -1,4 +1,5 @@
-const baseUri = 'http://localhost:3000'
+// const baseUri = 'http://localhost:3000'
+const baseUri = "https://todolistserver-vert.vercel.app"
 
 // Function to fetch all todos
 export const fetchTodos = async () => {
