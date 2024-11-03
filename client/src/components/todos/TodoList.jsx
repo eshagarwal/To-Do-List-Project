@@ -137,12 +137,20 @@ const TodoList = () => {
   
     // Separate and sort todos
     const openTodos = todos
-      .filter(todo => !todo.completed)
-      .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
+    .filter(todo => !todo.completed)
+    .map(todo => ({
+      ...todo,
+      createdAt: todo.createdAt instanceof Date ? todo.createdAt : new Date(todo.createdAt),
+    }))
+    .sort((a, b) => a.createdAt.getTime() - b.createdAt.getTime());
   
-    const completedTodos = todos
-      .filter(todo => todo.completed)
-      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
+  const completedTodos = todos
+    .filter(todo => todo.completed)
+    .map(todo => ({
+      ...todo,
+      createdAt: todo.createdAt instanceof Date ? todo.createdAt : new Date(todo.createdAt),
+    }))
+    .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   
     return (
       <div className="max-w-2xl mx-auto p-6">
