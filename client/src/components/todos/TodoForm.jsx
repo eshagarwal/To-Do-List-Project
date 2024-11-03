@@ -2,13 +2,14 @@ import React, { useState } from 'react';
 import { PlusCircle } from 'lucide-react';
 import '../../styles/todo.css'; 
 
+// TodoForm component for adding new tasks
 const TodoForm = ({ onAdd }) => {
   const [input, setInput] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (input.trim()) {
+    if (input.trim()) {   // Check if input is not just whitespace
       setIsSubmitting(true);
       await onAdd(input);
       setInput('');
