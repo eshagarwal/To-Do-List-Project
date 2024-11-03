@@ -12,4 +12,73 @@
         @apply flex items-center gap-2 px-6 py-3 text-sm font-medium text-white bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl hover:from-blue-700 hover:to-blue-800
         focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-all duration-200 ease-in-out hover:shadow-lg hover:scale-105 active:scale-95 disabled:opacity-70 disabled:cursor-not-allowed;
     }
+
+    .todo-item-container {
+        @apply transform transition-all duration-300 ease-in-out;
+    }
+
+    .todo-item-deleting {
+        @apply scale-95 opacity-0;
+    }
+
+    .todo-item-active {
+        @apply scale-100 opacity-100;
+    }
+
+    .todo-item {
+        @apply flex items-center justify-between p-4 mb-3 rounded-xl border transition-all duration-200;
+    }
+    
+    .todo-item-completed {
+        @apply bg-gray-50 border-gray-100;
+    }
+    
+    .todo-item-incomplete {
+        @apply bg-white border-gray-100 hover:border-gray-200 hover:shadow-md;
+    }
+
+    .editing-container {
+        @apply flex items-center gap-2 flex-1;
+    }
+    
+    .edit-input {
+        @apply flex-1 px-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all duration-200;
+    }
+
+    .check-button {
+        @apply p-1.5 rounded-lg transition-colors duration-200;
+    }
+    
+    .check-button-completed {
+        @apply text-green-600 hover:bg-green-50;
+    }
+    
+    .check-button-incomplete {
+        @apply text-gray-400 hover:bg-gray-50;
+    }
+    
+    .edit-button {
+        @apply p-1.5 text-gray-600 hover:text-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-200;
+    }
+    
+    .delete-button {
+        @apply p-1.5 text-gray-600 hover:text-red-600 rounded-lg hover:bg-red-50 transition-all duration-200;
+    }
+
+    .todo-title {
+        @apply text-sm transition-all duration-200;
+    }
+    
+    .todo-title-completed {
+        @apply line-through text-gray-400;
+    }
+    
+    .todo-title-incomplete {
+        @apply text-gray-700;
+    }
+    
+    .todo-date {
+        @apply text-xs text-gray-400;
+    }
+
 }
