@@ -5,6 +5,7 @@ import TodoItem from './TodoItem';
 import Alert from '../alerts/Alert';
 import AlertDescription from '../alerts/AlertDescription';
 import { fetchTodos, addTodo, completeTodo, deleteTodo, editTodo } from '../../api/todoApi';
+import '../../styles/todo.css';
 
 const TodoList = () => {
   // State to hold todos, alert messages, and visibility of task sections
@@ -99,22 +100,20 @@ const TodoList = () => {
       .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime());
   
     return (
-      <div className="max-w-2xl mx-auto p-6">
+      <div className="todo-list-container">
         
         {/* Header Section */}
-        <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-blue-800 mb-2">
-            My Tasks
-          </h1>
-          <p className="text-gray-600">Stay organized, stay productive</p>
+        <div className="header-section">
+          <h1 className="header-title">My Tasks</h1>
+          <p className="header-subtitle">Stay organized, stay productive</p>
         </div>
-        
+ 
         {/* Alert Message Display */}
         {alert.show && (
-          <Alert className={`mb-4 animate-slideIn ${
-            alert.type === 'success' ? 'bg-green-50 border-green-200' : 'bg-red-50 border-red-200'
+          <Alert className={`alert-message animate-slideIn ${
+            alert.type === 'success' ? 'alert-success' : 'alert-error'
           }`}>
-            <AlertDescription className="text-sm">{alert.message}</AlertDescription>
+            <AlertDescription className="alert-description">{alert.message}</AlertDescription>
           </Alert>
         )}
   
@@ -122,10 +121,10 @@ const TodoList = () => {
   
         {/* Conditional Rendering for No Tasks */}
         {todos.length === 0 ? (
-          <div className="text-center py-12 text-gray-500 bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
-            <div className="mb-2">📝</div>
-            <p className="text-gray-600 font-medium">No tasks yet</p>
-            <p className="text-sm text-gray-500">Add a new task to get started!</p>
+          <div className="no-tasks-container">
+            <div className="no-tasks-icon">📝</div>
+            <p className="no-tasks-title">No tasks yet</p>
+            <p className="no-tasks-subtitle">Add a new task to get started!</p>
           </div>
         ) : (
           <div>
@@ -169,8 +168,7 @@ const TodoList = () => {
         )}
   
         {/* Summary of Total Tasks */}
-        <div className="mt-8 px-4 py-3 bg-gray-50 rounded-xl border border-gray-100
-                        text-sm text-gray-600 flex justify-between items-center">
+        <div className="task-summary">
           <span>Total tasks: {todos.length}</span>
           <span>Completed: {completedTodos.length}</span>
         </div>
