@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { PlusCircle } from 'lucide-react';
+import '../../styles/todo.css'; 
 
 const TodoForm = ({ onAdd }) => {
   const [input, setInput] = useState('');
@@ -21,22 +22,13 @@ const TodoForm = ({ onAdd }) => {
         type="text"
         value={input}
         onChange={(e) => setInput(e.target.value)}
-        className="flex-1 px-4 py-3 text-sm border rounded-xl bg-white shadow-sm
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent
-                   transition-all duration-200 ease-in-out
-                   hover:shadow-md"
+        className="input-field"
         placeholder="Add a new task..."
       />
       <button
         type="submit"
         disabled={isSubmitting}
-        className="flex items-center gap-2 px-6 py-3 text-sm font-medium text-white
-                   bg-gradient-to-r from-blue-600 to-blue-700
-                   rounded-xl hover:from-blue-700 hover:to-blue-800
-                   focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
-                   transition-all duration-200 ease-in-out
-                   hover:shadow-lg hover:scale-105 active:scale-95
-                   disabled:opacity-70 disabled:cursor-not-allowed"
+        className="add-task-btn"
       >
         <PlusCircle className={`w-4 h-4 ${isSubmitting ? 'animate-spin' : ''}`} />
         Add Task
