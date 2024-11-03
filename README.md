@@ -1,6 +1,6 @@
 # 📝 ToDo List Full Stack Application
 
-A modern, full-stack todo list application built with React and Express.js that helps you manage your tasks efficiently.
+A modern, full-stack todo list application built with React and Express.js that helps you manage your tasks efficiently. [TRY IT NOW!](https://todolistclient-eta.vercel.app/)
 
 ## 🏗️ Project Structure
 
@@ -11,7 +11,6 @@ A modern, full-stack todo list application built with React and Express.js that 
 ### 🎨 ToDo List Client
 - Frontend application developed with React.js, Vite and Tailwind CSS
 - Provides an intuitive user interface for task management
-- Deployed on [Vercel](https://todolistclient-eta.vercel.app/)
 
 ## 🚀 Features
 
