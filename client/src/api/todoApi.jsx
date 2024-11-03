@@ -25,7 +25,7 @@ export const addTodo = async (title) => {
 };
 
 // Function to mark a todo as completed
-export const toggleTodo = async (id) => {
+export const completeTodo = async (id) => {
     const response = await fetch(`http://localhost:3000/api/todos/${id}/complete`, { 
         method: 'PUT' 
     });
