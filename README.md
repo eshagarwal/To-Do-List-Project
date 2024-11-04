@@ -156,11 +156,17 @@ The backend server offers a REST API to manage todos. Below is a list of availab
 - **URL**: `/todos/:id`
 - **Method**: `DELETE`
 - **Description**: Deletes a specified todo by its ID.
-- **Response**: A confirmation message or status indicating deletion success.
+- **Response**: A status indicating deletion success.
 
   ```json
   {
-    "message": "Todo deleted successfully."
+    "status": "success",
+    "data": {
+      "id": 2,
+      "title": "Updated Todo Title",
+      "completed": false,
+      "createdAt": "2024-11-04T13:45:06.917Z"
+    }
   }
 
 ## 📄 License
