@@ -1,5 +1,5 @@
 // const baseUri = 'http://localhost:3000'
-const baseUri = "https://todolistserver-vert.vercel.app"
+const baseUri = import.meta.env.VITE_BASE_URI;
 
 // Function to fetch all todos
 export const fetchTodos = async () => {
