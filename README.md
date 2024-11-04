@@ -58,6 +58,111 @@ npm run dev
 
 4. Open your browser and navigate to `http://localhost:5173` (or the port specified by Vite)
 
+## 📚 API Documentation
+
+The backend server offers a REST API to manage todos. Below is a list of available endpoints.
+
+### 🔹 Endpoints
+
+#### 1. **Get All Todos**
+
+- **URL**: `/todos`
+- **Method**: `GET`
+- **Description**: Retrieves all todos.
+- **Response**: An array of todo objects.
+
+  ```json
+    {
+      "status": "success",
+      "data": [
+        {
+          "id": 1,
+          "title": "Sample Todo",
+          "completed": false,
+          "createdAt": "2024-11-04T13:38:03.666Z"
+        }
+      ]
+    }
+
+#### 2. **Add a New Todo**
+
+- **URL**: `/todos`
+- **Method**: `POST`
+- **Description**: Adds a new todo to the list.
+- **Request Body**:
+
+  ```json
+  {
+    "title": "New Todo"
+  }
+
+- **Response:**: The newly created todo object.
+
+  ```json
+    {
+      "status": "success",
+      "data": {
+        "id": 2,
+        "title": "New Todo",
+        "completed": false,
+        "createdAt": "2024-11-04T13:38:03.666Z"
+      }
+    }
+
+#### 3. **Mark Todo as Complete**
+
+- **URL**: `/todos/:id/complete`
+- **Method**: `PUT`
+- **Description**: Marks the completion status of a specified todo.
+- **Response**: The updated todo object with the new completion status.
+
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "id": 1,
+      "title": "Sample Todo",
+      "completed": true,
+      "createdAt": "2024-11-04T13:38:03.666Z"
+    }
+  }
+
+#### 4. **Update a Todo Title**
+
+- **URL**: `/todos/:id`
+- **Method**: `PUT`
+- **Description**: Updates the title of a specified todo.
+- **Request Body**:
+
+  ```json
+  {
+    "title": "Updated Todo Title"
+  }
+
+- **Response**: The updated todo object with the new completion status.
+  ```json
+  {
+    "status": "success",
+    "data": {
+      "id": 2,
+      "title": "Updated Todo Title",
+      "completed": false,
+      "createdAt": "2024-11-04T13:45:06.917Z"
+    }
+  }
+
+#### 5. **Delete a Todo**
+
+- **URL**: `/todos/:id`
+- **Method**: `DELETE`
+- **Description**: Deletes a specified todo by its ID.
+- **Response**: A confirmation message or status indicating deletion success.
+
+  ```json
+  {
+    "message": "Todo deleted successfully."
+  }
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
